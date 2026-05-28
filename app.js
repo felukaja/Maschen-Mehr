@@ -7,7 +7,7 @@
 
 // ─── PASSWORD ────────────────────────────────────────────────
 // Ersetze MEINPASSWORT mit deinem Passwort
-const APP_PWD = 'MEINPASSWORT';
+const APP_PWD = 'BuBu1581!?!';
 
 // ─── STATE ───────────────────────────────────────────────────
 let appState = {

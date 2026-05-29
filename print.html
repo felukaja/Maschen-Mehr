@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anleitung drucken — Maschen & Maße</title>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --walnut: #241a10;
+  --green:  #4a6b40;
+  --terra:  #a05a3a;
+  --text:   #1e1208;
+  --textLight: #9c7b5a;
+  --border: #ddd3c4;
+  --bg:     #ede6db;
+  --surface:#f8f3ed;
+  --serif:  'Spectral', serif;
+  --sans:   'DM Sans', sans-serif;
+  --mono:   'DM Mono', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+  padding: 1.5rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Druck-Button */
+.print-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--walnut);
+  padding: 0.85rem 1.25rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+}
+.print-bar h1 { font-family: var(--serif); color: white; font-size: 1rem; }
+.btn-print {
+  background: var(--green);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 0.5rem 1.25rem;
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.btn-back {
+  background: rgba(255,255,255,0.1);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 0.5rem 1rem;
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  cursor: pointer;
+  margin-right: 0.5rem;
+}
+
+/* Größen-Auswahl */
+.size-bar {
+  background: var(--walnut);
+  border-radius: 10px;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.size-bar label {
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+}
+.size-bar select {
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 8px;
+  color: white;
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  padding: 0.35rem 0.7rem;
+  flex: 1;
+}
+
+/* Content */
+.pattern-header {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid var(--walnut);
+}
+.pattern-img {
+  width: 120px; height: 120px;
+  border-radius: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 3rem;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+.pattern-img img { width: 100%; height: 100%; object-fit: cover; }
+.pattern-title { font-family: var(--serif); font-size: 2rem; font-weight: 700; line-height: 1.1; }
+.pattern-kat { font-size: 0.75rem; color: var(--green); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.3rem; }
+.pattern-meta { font-size: 0.85rem; color: var(--textLight); margin-top: 0.5rem; line-height: 1.8; }
+
+/* Info-Grid */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+.info-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.75rem;
+}
+.info-box-label { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--textLight); font-weight: 700; margin-bottom: 0.2rem; }
+.info-box-val { font-family: var(--serif); font-size: 0.95rem; font-weight: 600; }
+
+/* Tags */
+.tags-row { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 1.5rem; }
+.tag { background: #e4ede0; color: var(--green); border-radius: 12px; padding: 0.15rem 0.6rem; font-size: 0.72rem; font-weight: 600; }
+
+/* Sections */
+.section { margin-bottom: 2rem; }
+.section-title {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--walnut);
+  border-bottom: 1.5px solid var(--border);
+  padding-bottom: 0.4rem;
+  margin-bottom: 0.85rem;
+}
+
+/* Garn */
+.yarn-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.88rem;
+}
+.yarn-name { font-weight: 600; margin-bottom: 0.2rem; }
+.yarn-detail { color: var(--textLight); font-size: 0.8rem; line-height: 1.6; }
+
+/* Maschen */
+.maschen-chips { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.maschen-chip { background: #e4ede0; color: var(--green); border-radius: 12px; padding: 0.15rem 0.6rem; font-size: 0.75rem; }
+
+/* Schnittteile */
+.schnitt-item {
+  background: var(--surface);
+  border-left: 3px solid var(--green);
+  border-radius: 0 8px 8px 0;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.75rem;
+}
+.schnitt-name { font-weight: 600; font-family: var(--serif); margin-bottom: 0.35rem; }
+.schnitt-detail { font-size: 0.82rem; color: var(--textLight); margin-bottom: 0.1rem; }
+.schnitt-highlight { font-family: var(--mono); font-size: 0.88rem; color: var(--green); font-weight: 700; }
+
+/* Anleitung */
+.anl-block {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+.anl-block-header {
+  background: var(--walnut);
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.8);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.anl-step {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid var(--border);
+  align-items: baseline;
+}
+.anl-step:last-child { border-bottom: none; }
+.anl-step-nr {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--textLight);
+  font-weight: 700;
+  min-width: 24px;
+  flex-shrink: 0;
+}
+.anl-step-text {
+  font-size: 0.92rem;
+  color: var(--text);
+  line-height: 1.5;
+}
+.anl-step-maschen {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--textLight);
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+/* Abbr */
+.abbr-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.85rem 1rem;
+  font-size: 0.85rem;
+  line-height: 1.8;
+  white-space: pre-line;
+  color: var(--textLight);
+}
+
+/* Druck-Styles */
+@media print {
+  .print-bar, .size-bar { display: none !important; }
+  body { background: white; padding: 0; }
+  .section { page-break-inside: avoid; }
+  .anl-block { page-break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+
+<div class="print-bar">
+  <h1 id="print-title">Anleitung</h1>
+  <div>
+    <button class="btn-back" onclick="window.history.length > 1 ? history.back() : window.close()">← Zurück</button>
+    <button class="btn-print" onclick="window.print()">🖨 Drucken / PDF</button>
+  </div>
+</div>
+
+<div class="size-bar">
+  <label>Größe</label>
+  <select id="print-size" onchange="renderPrint()">
+    <optgroup label="Damen">
+      <option value="damen_xxs">XXS</option><option value="damen_xs">XS</option>
+      <option value="damen_s">S</option><option value="damen_m" selected>M</option>
+      <option value="damen_l">L</option><option value="damen_xl">XL</option>
+      <option value="damen_2xl">2XL</option><option value="damen_3xl">3XL</option>
+      <option value="damen_4xl">4XL</option><option value="damen_5xl">5XL</option>
+    </optgroup>
+    <optgroup label="Herren">
+      <option value="herren_xs">H-XS</option><option value="herren_s">H-S</option>
+      <option value="herren_m">H-M</option><option value="herren_l">H-L</option>
+      <option value="herren_xl">H-XL</option><option value="herren_2xl">H-2XL</option>
+    </optgroup>
+    <optgroup label="Kinder">
+      <option value="kind_2j">2J</option><option value="kind_4j">4J</option>
+      <option value="kind_6j">6J</option><option value="kind_8j">8J</option>
+      <option value="kind_10j">10J</option><option value="kind_12j">12J</option>
+    </optgroup>
+    <optgroup label="Baby">
+      <option value="baby_nb">NB</option><option value="baby_0_3">0–3M</option>
+      <option value="baby_3_6">3–6M</option><option value="baby_6_12">6–12M</option>
+    </optgroup>
+  </select>
+</div>
+
+<div id="print-content"></div>
+
+<script>
+// Körpermaße (kopiert aus anleitungen.js)
+const BODY_MEAS_FULL = {
+  damen_xxs:{bust:73.5,hip:81.5,waist:58.5,sleeve:42.5,back:38.5,shoulder:34.5,armhole:16.5,head:53,foot:23,ankle:20,inseam:76,thigh:51},
+  damen_xs:{bust:78.5,hip:86.5,waist:63.5,sleeve:43,back:39.5,shoulder:35.5,armhole:17,head:53,foot:23,ankle:20.5,inseam:77,thigh:53},
+  damen_s:{bust:83.5,hip:91.5,waist:68.5,sleeve:43.5,back:40.5,shoulder:36.5,armhole:17.5,head:54,foot:24,ankle:21,inseam:78,thigh:55},
+  damen_m:{bust:93.5,hip:101.5,waist:78.5,sleeve:44.5,back:42,shoulder:38,armhole:18.5,head:55,foot:24.5,ankle:22,inseam:79,thigh:59},
+  damen_l:{bust:103.5,hip:111.5,waist:88.5,sleeve:45,back:43.5,shoulder:40,armhole:19.5,head:56,foot:25,ankle:23,inseam:80,thigh:64},
+  damen_xl:{bust:113.5,hip:121.5,waist:98.5,sleeve:46,back:44.5,shoulder:41.5,armhole:20.5,head:57,foot:25.5,ankle:24,inseam:80,thigh:68},
+  damen_2xl:{bust:124,hip:132,waist:109,sleeve:46.5,back:45.5,shoulder:43,armhole:21.5,head:57,foot:26,ankle:25,inseam:81,thigh:73},
+  damen_3xl:{bust:134.5,hip:142.5,waist:119,sleeve:47,back:46,shoulder:44.5,armhole:22,head:58,foot:26,ankle:26,inseam:81,thigh:77},
+  damen_4xl:{bust:144.5,hip:152.5,waist:129,sleeve:47,back:46.5,shoulder:46,armhole:22.5,head:58,foot:26.5,ankle:27,inseam:82,thigh:82},
+  damen_5xl:{bust:155,hip:162.5,waist:139.5,sleeve:47.5,back:47,shoulder:47,armhole:23,head:59,foot:27,ankle:28,inseam:82,thigh:86},
+  herren_xs:{bust:83.5,hip:86.5,waist:68.5,sleeve:47,back:40.5,shoulder:37,armhole:19,head:55,foot:25,ankle:22,inseam:79,thigh:52},
+  herren_s:{bust:88.5,hip:91.5,waist:73.5,sleeve:47.5,back:41.5,shoulder:38,armhole:19.5,head:56,foot:26,ankle:22.5,inseam:80,thigh:54},
+  herren_m:{bust:98.5,hip:101.5,waist:83.5,sleeve:48.5,back:43,shoulder:40,armhole:21,head:57,foot:27,ankle:23.5,inseam:81,thigh:57},
+  herren_l:{bust:108.5,hip:111.5,waist:93.5,sleeve:50,back:44.5,shoulder:42,armhole:22,head:58,foot:28,ankle:24.5,inseam:82,thigh:61},
+  herren_xl:{bust:118.5,hip:121.5,waist:103.5,sleeve:51,back:45.5,shoulder:44,armhole:23,head:59,foot:28.5,ankle:25.5,inseam:83,thigh:65},
+  herren_2xl:{bust:129.5,hip:132.5,waist:114.5,sleeve:51.5,back:46.5,shoulder:46,armhole:24,head:60,foot:29,ankle:26.5,inseam:83,thigh:69},
+  kind_2j:{bust:53,hip:53,waist:52,sleeve:25,back:25,shoulder:22,armhole:11,head:49,foot:13,ankle:14,inseam:31,thigh:30},
+  kind_4j:{bust:57,hip:58,waist:53,sleeve:29,back:28,shoulder:24,armhole:12,head:50,foot:15,ankle:15,inseam:38,thigh:33},
+  kind_6j:{bust:60,hip:62,waist:55,sleeve:33,back:31,shoulder:25,armhole:13,head:51,foot:17,ankle:16,inseam:45,thigh:36},
+  kind_8j:{bust:64,hip:67,waist:57,sleeve:37,back:34,shoulder:27,armhole:14,head:52,foot:19,ankle:17,inseam:52,thigh:39},
+  kind_10j:{bust:68,hip:72,waist:60,sleeve:41,back:37,shoulder:28,armhole:14.5,head:52,foot:21,ankle:18,inseam:58,thigh:42},
+  kind_12j:{bust:74,hip:79,waist:63,sleeve:46,back:40,shoulder:30,armhole:15.5,head:53,foot:22,ankle:19,inseam:64,thigh:46},
+  baby_nb:{bust:37,hip:37,waist:37,sleeve:16,back:19,shoulder:16,armhole:8,head:35,foot:8.5,ankle:12,inseam:17,thigh:21},
+  baby_0_3:{bust:39.5,hip:39.5,waist:39.5,sleeve:17.5,back:20.5,shoulder:17,armhole:8.5,head:37,foot:9.5,ankle:12.5,inseam:19,thigh:22},
+  baby_3_6:{bust:42,hip:42,waist:42,sleeve:19,back:22,shoulder:18,armhole:9,head:41,foot:10.5,ankle:13,inseam:22,thigh:24},
+  baby_6_12:{bust:45.5,hip:45.5,waist:45.5,sleeve:21,back:24,shoulder:19,armhole:9.5,head:44,foot:11.5,ankle:14,inseam:25,thigh:26},
+};
+
+function roundToRapport(raw, mult, plus) {
+  mult = +mult||0; plus = +plus||0;
+  if (mult<=1) return Math.round(raw);
+  const nLow=Math.floor((raw-plus)/mult), nHigh=Math.ceil((raw-plus)/mult);
+  const vLow=nLow*mult+plus, vHigh=nHigh*mult+plus;
+  return Math.abs(vLow-raw)<=Math.abs(vHigh-raw)?vLow:vHigh;
+}
+
+function parseBlock(input) {
+  if (!input||!input.trim()) return [];
+  const parts=[]; let i=0; const str=input.trim();
+  while(i<str.length){
+    if(str[i]==='['){const end=str.indexOf(']',i);if(end===-1)break;parts.push({typ:'code',raw:str.slice(i+1,end)});i=end+1;}
+    else if(str[i]==='('){const end=str.indexOf(')',i);if(end===-1)break;parts.push({typ:'notiz',raw:str.slice(i+1,end)});i=end+1;}
+    else{i++;}
+  }
+  return parts;
+}
+
+function skaliere(codeRaw, sfB, sfH, rapport, rapportPlus, laufend) {
+  const c=codeRaw.trim(); const nums=[]; c.replace(/(\d+(?:\.\d+)?)/g,(m,n)=>nums.push(+n));
+  if(/^(\d+)M AS$/.test(c)){const sM=roundToRapport(nums[0]*sfB,rapport,rapportPlus);return{text:`${sM} Maschen anschlagen`,delta:sM};}
+  if(/^(\d+)R Ger\.$/.test(c)){return{text:`${Math.round(nums[0]*sfH)} Reihen gerade häkeln`,delta:0};}
+  if(/^(\d+)R Wend\.$/.test(c)){return{text:`${Math.round(nums[0]*sfH)} Wendetouren`,delta:0};}
+  if(/^(\d+)R Rd\.$/.test(c)){return{text:`${Math.round(nums[0]*sfH)} Runden häkeln`,delta:0};}
+  if(/^(\d+)M Abket\. bds\.$/.test(c)){const sM=roundToRapport(nums[0]*sfB,rapport,rapportPlus);return{text:`${sM} Maschen abketten je Seite`,delta:-(sM*2)};}
+  if(/^(\d+)M Abket\. eins\.$/.test(c)){const sM=roundToRapport(nums[0]*sfB,rapport,rapportPlus);return{text:`${sM} Maschen abketten`,delta:-sM};}
+  if(/^(\d+)M Abn\. bds\.$/.test(c)){const sM=roundToRapport(nums[0]*sfB,rapport,rapportPlus);return{text:`${sM} Maschen abnehmen je Seite`,delta:-(sM*2)};}
+  if(/^(\d+)M Abn\. eins\.$/.test(c)){const sM=roundToRapport(nums[0]*sfB,rapport,rapportPlus);return{text:`${sM} Maschen abnehmen`,delta:-sM};}
+  if(/^(\d+)M Zun\. bds\.$/.test(c)){const sM=roundToRapport(nums[0]*sfB,rapport,rapportPlus);return{text:`${sM} Maschen zunehmen je Seite`,delta:sM*2};}
+  if(/^(\d+)M Abn\. bds\. \/ (\d+)R \/ (\d+)x$/.test(c)){const sM=roundToRapport(nums[0]*sfB,rapport,rapportPlus),sR=Math.round(nums[1]*sfH),wdh=nums[2];const c2=Math.floor(sR/wdh),d=sR%wdh,e=wdh-d;const mf=d===0?`alle ${c2} R, ${wdh}×`:`${e}× alle ${c2} R, dann ${d}× alle ${c2+1} R`;return{text:`${sM} Maschen abnehmen je Seite — ${mf}`,delta:-(sM*2*wdh)};}
+  if(/^Rest Abket\. bds\.$/.test(c)){const je=Math.floor(laufend/2);return{text:`${je} Maschen abketten je Seite`,delta:-laufend};}
+  if(/^Rest Abket\. eins\.$/.test(c)){return{text:`${laufend} Maschen abketten`,delta:-laufend};}
+  if(c==='Faden abschneiden')return{text:'Faden abschneiden und vernähen',delta:0};
+  return{text:codeRaw,delta:0};
+}
+
+function genOutput(schritte, sfB, sfH, rapport, rapportPlus) {
+  let laufend=0;
+  return schritte.map((s,i)=>{
+    const parts=parseBlock(s.code); let text=''; let delta=0;
+    parts.forEach(part=>{
+      if(part.typ==='code'){const r=skaliere(part.raw,sfB,sfH,rapport,rapportPlus,laufend);if(r){text+=r.text;delta+=r.delta||0;}}
+      else if(part.typ==='notiz'){text+=` — ${part.raw}`;}
+    });
+    laufend+=delta;
+    return{nr:i+1,text,maschen:laufend>0?laufend:null};
+  }).filter(r=>r.text);
+}
+
+// ─── SUPABASE CONFIG ─────────────────────────────────────────
+const SUPA_URL = 'https://gqeicdlcjnqzevbwljrs.supabase.co';
+const SUPA_KEY = 'sb_publishable_RaxtAZnuwjljXFKop8dpvw_DsYbTHDG';
+
+let pattern = null;
+
+async function loadPattern() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const id = +urlParams.get('id');
+  if (!id) { renderPrint(); return; }
+
+  try {
+    const res = await fetch(`${SUPA_URL}/rest/v1/patterns?id=eq.${id}`, {
+      headers: { 'apikey': SUPA_KEY, 'Authorization': `Bearer ${SUPA_KEY}` }
+    });
+    const data = await res.json();
+    if (data && data[0]) {
+      const r = data[0];
+      pattern = {
+        id: r.id, title: r.title, emoji: r.emoji, kat: r.kat,
+        needle: r.needle, mat: r.mat, diff: r.diff, status: r.status,
+        gaugeM: r.gauge_m, gaugeR: r.gauge_r, baseBust: r.base_bust,
+        images: r.images||[], text: r.text||'', schnitt: r.schnitt||[],
+        yarns: r.yarns||[], notes: r.notes||[], abbr: r.abbr||'',
+        tags: r.tags||[], maschen: r.maschen||[],
+        anleitungSchritte: r.anleitung_schritte||{},
+      };
+    }
+  } catch(e) {
+    // Fallback localStorage
+    try {
+      const saved = localStorage.getItem('mm_state');
+      if (saved) {
+        const state = JSON.parse(saved);
+        pattern = state.patterns?.find(p => p.id === id) || null;
+      }
+    } catch(e2) {}
+  }
+  renderPrint();
+}
+
+function renderPrint() {
+  if (!pattern) {
+    document.getElementById('print-content').innerHTML = '<p style="text-align:center;padding:3rem;color:#999;">Anleitung nicht gefunden. Bitte von der App aus öffnen.</p>';
+    return;
+  }
+
+  const sizeKey = document.getElementById('print-size').value;
+  const p = pattern;
+
+  document.title = `${p.title} — Maschen & Maße`;
+  document.getElementById('print-title').textContent = p.title;
+
+  let html = '';
+
+  // Header
+  const thumb = p.images && p.images.length > 0 ? `<img src="${p.images[0]}" alt="">` : (p.emoji || '🧶');
+  html += `<div class="pattern-header">
+    <div class="pattern-img">${thumb}</div>
+    <div>
+      <p class="pattern-kat">${p.kat || 'Anleitung'}</p>
+      <h1 class="pattern-title">${p.title}</h1>
+      <p class="pattern-meta">
+        ${p.needle ? `⚙ ${p.needle}` : ''}
+        ${p.gaugeM ? ` · ${p.gaugeM}M / ${p.gaugeR||'?'}R pro 10 cm` : ''}
+        ${p.diff ? ` · ${ ['','Einfach','Mittel','Fortgeschritten'][p.diff] }` : ''}
+      </p>
+    </div>
+  </div>`;
+
+  // Tags
+  if (p.tags && p.tags.length) {
+    html += `<div class="tags-row">${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>`;
+  }
+
+  // Info-Grid
+  html += `<div class="info-grid">
+    ${p.needle ? `<div class="info-box"><div class="info-box-label">Nadel</div><div class="info-box-val">${p.needle}</div></div>` : ''}
+    ${p.gaugeM ? `<div class="info-box"><div class="info-box-label">Maschenprobe</div><div class="info-box-val">${p.gaugeM}M · ${p.gaugeR||'?'}R / 10cm</div></div>` : ''}
+    <div class="info-box"><div class="info-box-label">Größe</div><div class="info-box-val">${sizeKey.replace('_',' ').toUpperCase()}</div></div>
+  </div>`;
+
+  // Garn
+  if (p.yarns && p.yarns.length > 0) {
+    html += `<div class="section"><h2 class="section-title">Garn</h2>`;
+    p.yarns.forEach((y, i) => {
+      if (!y.name && !y.brand) return;
+      html += `<div class="info-grid" style="margin-bottom:0.5rem;">
+        ${y.name  ? `<div class="info-box"><div class="info-box-label">Garn ${i+1}</div><div class="info-box-val">${y.name}${y.brand?' · '+y.brand:''}</div></div>` : ''}
+        ${y.color ? `<div class="info-box"><div class="info-box-label">Farbe</div><div class="info-box-val">${y.color}${y.lot?' · Lot '+y.lot:''}</div></div>` : ''}
+        ${y.g&&y.lauf ? `<div class="info-box"><div class="info-box-label">Lauflänge</div><div class="info-box-val">${y.lauf}m / ${y.g}g</div></div>` : ''}
+        ${y.anzahl ? `<div class="info-box"><div class="info-box-label">Anzahl</div><div class="info-box-val">${y.anzahl} Knäuel</div></div>` : ''}
+        ${y.material ? `<div class="info-box"><div class="info-box-label">Material</div><div class="info-box-val">${y.material}</div></div>` : ''}
+      </div>`;
+    });
+    html += `</div>`;
+  }
+
+  // Maschen
+  if (p.maschen && p.maschen.length) {
+    html += `<div class="section">
+      <h2 class="section-title">Muster & Maschenarten</h2>
+      <div class="maschen-chips">${p.maschen.map(m => `<span class="maschen-chip">${m}</span>`).join('')}</div>
+    </div>`;
+  }
+
+  // Abkürzungen
+  if (p.abbr && p.abbr.trim()) {
+    html += `<div class="section">
+      <h2 class="section-title">Abkürzungen</h2>
+      <div class="abbr-box">${p.abbr}</div>
+    </div>`;
+  }
+
+  // Schnittteile
+  if (p.schnitt && p.schnitt.length) {
+    html += `<div class="section"><h2 class="section-title">Schnittteile</h2>`;
+    p.schnitt.forEach(s => {
+      const massKey = s.massKey || 'bust';
+      const baseMassVal = +s.baseMassVal || 0;
+      const ease = +s.ease || 0;
+      const teiltyp = s.teiltyp || 'halb';
+      const easeDivisor = teiltyp === 'ganz' ? 1 : 2;
+      const easeProTeil = ease / easeDivisor;
+      const basisMitEase = baseMassVal + easeProTeil;
+      const targetMeas = BODY_MEAS_FULL[sizeKey];
+      let fertigmass = '';
+      if (targetMeas && massKey !== 'none' && baseMassVal > 0) {
+        const zielKoerper = targetMeas[massKey];
+        if (zielKoerper) {
+          const zielMitEase = zielKoerper + easeProTeil;
+          fertigmass = `${zielMitEase.toFixed(1)} cm`;
+        }
+      }
+      html += `<div class="schnitt-item">
+        <div class="schnitt-name">${s.name}</div>
+        ${fertigmass ? `<div class="schnitt-highlight">Fertigmaß: ${fertigmass}</div>` : ''}
+        ${ease ? `<div class="schnitt-detail">Ease: +${ease} cm gesamt (÷${easeDivisor} = +${easeProTeil.toFixed(1)} cm pro Teil)</div>` : ''}
+      </div>`;
+    });
+    html += `</div>`;
+  }
+
+  // Anleitung
+  const anlSchritte = p.anleitungSchritte || {};
+  const allKeys = ['__allgemein__', ...(p.schnitt||[]).map(s => s.name)];
+  let hasAnleitung = false;
+
+  allKeys.forEach(key => {
+    const schritte = anlSchritte[key] || [];
+    if (!schritte.length) return;
+    hasAnleitung = true;
+
+    const schnittTeil = (p.schnitt||[]).find(s => s.name === key);
+    let sfB=1, sfH=1, rapport=0, rapportPlus=0;
+    if (schnittTeil) {
+      const massKey = schnittTeil.massKey || 'bust';
+      const baseMassVal = +schnittTeil.baseMassVal || 0;
+      const ease = +schnittTeil.ease || 0;
+      const teiltyp = schnittTeil.teiltyp || 'halb';
+      const easeDivisor = teiltyp === 'ganz' ? 1 : 2;
+      const easeProTeil = ease / easeDivisor;
+      const basisMitEase = baseMassVal + easeProTeil;
+      const targetMeas = BODY_MEAS_FULL[sizeKey];
+      if (targetMeas && massKey !== 'none' && baseMassVal > 0) {
+        const tm = targetMeas[massKey];
+        if (tm) { const ziel = tm + easeProTeil; sfB = basisMitEase > 0 ? ziel/basisMitEase : tm/baseMassVal; sfH=sfB; }
+      }
+      rapport = +schnittTeil.rapport||0;
+      rapportPlus = +schnittTeil.rapportPlus||0;
+    }
+
+    const rows = genOutput(schritte, sfB, sfH, rapport, rapportPlus);
+    if (!rows.length) return;
+
+    const label = key === '__allgemein__' ? 'Anleitung' : key;
+    html += `<div class="section">
+      <h2 class="section-title">${label}</h2>
+      <div class="anl-block">
+        <div class="anl-block-header">${sizeKey.replace('_',' ').toUpperCase()}</div>
+        ${rows.map(r => `<div class="anl-step">
+          <span class="anl-step-nr">${r.nr}</span>
+          <span class="anl-step-text">${r.text}</span>
+          ${r.maschen ? `<span class="anl-step-maschen">${r.maschen}M</span>` : ''}
+        </div>`).join('')}
+      </div>
+    </div>`;
+  });
+
+  // Fallback: Legacy-Freitext
+  if (!hasAnleitung && p.text && p.text.trim()) {
+    html += `<div class="section">
+      <h2 class="section-title">Anleitung</h2>
+      <div class="anl-block" style="padding:1rem;font-family:Georgia,serif;line-height:1.8;white-space:pre-wrap;">${p.text}</div>
+    </div>`;
+  }
+
+  // Kein Inhalt
+  if (!hasAnleitung && (!p.text || !p.text.trim())) {
+    html += `<div class="section"><p style="color:#999;text-align:center;padding:2rem;">Noch keine Anleitung vorhanden.</p></div>`;
+  }
+}
+
+loadPattern(); // async — ruft renderPrint() intern auf
+</script>
+</body>
+</html>

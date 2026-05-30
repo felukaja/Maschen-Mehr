@@ -24,13 +24,10 @@ async function supaFetch(path, method = 'GET', body = null, extra = '') {
     },
   };
   if (body) opts.body = JSON.stringify(body);
-  const url = `${SUPA_URL}/rest/v1/${path}${extra}`;
-  console.log(`[Supabase] ${method} ${url}`);
-  const res = await fetch(url, opts);
+  const res = await fetch(`${SUPA_URL}/rest/v1/${path}${extra}`, opts);
   if (!res.ok) {
     const err = await res.text();
-    console.error(`[Supabase Error] ${method} ${path}: ${err}`);
-    throw new Error(err);
+    throw new Error(`Supabase ${method} ${path}: ${err}`);
   }
   const text = await res.text();
   return text ? JSON.parse(text) : null;
@@ -180,7 +177,7 @@ async function loadFromSupabase() {
       `todos?user_id=eq.${USER_ID}&order=created_at.desc`
     );
     if (todos) appState.todos = todos.map(t => ({
-      id: t.id, text: t.text, date: t.date||'', cat: t.cat||'', done: t.done, _existsInDB: true
+      id: t.id, text: t.text, date: t.date||'', cat: t.cat||'', done: t.done
     }));
 
     // Notizen
@@ -188,7 +185,7 @@ async function loadFromSupabase() {
       `notizen?user_id=eq.${USER_ID}&order=created_at.desc`
     );
     if (notizen) appState.notizen = notizen.map(n => ({
-      id: n.id, text: n.text, date: n.date||'', _existsInDB: true
+      id: n.id, text: n.text, date: n.date||''
     }));
 
     // Profil
@@ -201,16 +198,17 @@ async function loadFromSupabase() {
       appState.settings = p.settings || appState.settings;
     }
 
-    console.log(`✓ Supabase geladen: ${appState.patterns.length} Anleitungen`);
+    // Nach Laden: Dashboard aktualisieren
     updateGreeting();
     renderDashPatterns();
     renderDashTodos();
     applySettings();
 
   } catch(e) {
-    console.error('Supabase load error:', e.message);
-    showSnackbar(`⚠ Laden fehlgeschlagen: ${e.message.slice(0,60)}`);
+    console.error('Supabase load error:', e);
+    // Fallback: localStorage
     loadStateLocal();
+    showSnackbar('Offline — lokale Daten geladen');
   } finally {
     showLoadingOverlay(false);
   }
@@ -741,7 +739,7 @@ function exportData() {
   const blob = new Blob([JSON.stringify(appState, null, 2)], {type:'application/json'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
-  a.href = url; a.download = 'maschen-masze-backup.json'; a.click();
+  a.href = url; a.download = 'eigenmaß-backup.json'; a.click();
   URL.revokeObjectURL(url);
   showSnackbar('Backup gespeichert ✓');
 }

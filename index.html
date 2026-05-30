@@ -6,14 +6,9 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Maschen &amp; Maße">
+<meta name="apple-mobile-web-app-title" content="EigenMaß">
 <meta name="theme-color" content="#241a10">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Maschen &amp; Maße">
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icon-512.png">
-<title>Maschen &amp; Maße</title>
+<title>EigenMaß</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -32,7 +27,7 @@
       <path d="M22 13 L22 18 M22 26 L22 31 M13 22 L18 22 M26 22 L31 22" stroke="rgba(255,255,255,0.3)" stroke-width="1.2" stroke-linecap="round"/>
     </svg>
   </div>
-  <h1 class="login-title">Maschen &amp; Maße</h1>
+  <h1 class="login-title">EigenMaß</h1>
   <p class="login-sub">Dein persönliches Häkel-Atelier</p>
   <div class="login-card">
     <label class="lbl" style="color:rgba(255,255,255,0.45);">Passwort</label>
@@ -810,7 +805,7 @@
     <svg class="footer-wave" viewBox="0 0 430 40" preserveAspectRatio="none" height="40" style="margin-top:auto;"><path d="M0 0 Q95 32 215 16 Q325 2 430 20 L430 40 L0 40 Z" fill="#241a10"/></svg>
     <div class="footer-dark">
       <p><a>Impressum</a> · <a>Datenschutz</a></p>
-      <p style="margin-top:0.4rem;">Maschen &amp; Maße · v5.0</p>
+      <p style="margin-top:0.4rem;">EigenMaß · v5.0</p>
     </div>
   </div>
 </div>
@@ -1025,14 +1020,5 @@
 <script src="anleitungen.js"></script>
 <script src="rechner.js"></script>
 <script src="notizen.js"></script>
-<script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/Maschen-Mehr/service-worker.js')
-        .then(r => console.log('SW registered:', r.scope))
-        .catch(e => console.log('SW error:', e));
-    });
-  }
-</script>
 </body>
 </html>

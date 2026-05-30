@@ -1609,6 +1609,7 @@ function collectAnleitungData() {
 
 function loadAnleitungData(data) {
   window._anleitungSchritte = data ? JSON.parse(JSON.stringify(data)) : {};
+  renderAnlSchritte();
 }
 
 // ─── LESEMODUS: VOLLEN TEXT ───────────────────────────────────

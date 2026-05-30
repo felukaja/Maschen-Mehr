@@ -228,7 +228,6 @@ function patternRowHTML(p) {
       <div class="p2-footer">
         <div class="p2-dots">${dots}</div>
         ${badgeHTML}
-        ${p.hoursTotal ? `<span class="anl-hours-badge">⏱ ${formatHoursDecimal(p.hoursTotal)}</span>` : ''}
       </div>
     </div>
     <div class="p2-chevron">
@@ -264,7 +263,6 @@ function openEditor(id) {
     if (sel) sel.innerHTML = '<option value="__allgemein__">Allgemeine Anleitung</option>';
     const defaultSize = appState.profil.groesse || 'damen_m';
     document.getElementById('ed-size-select').value = defaultSize;
-    if (typeof resetHoursData === 'function') resetHoursData();
   } else {
     currentPatternId = id;
     const p = appState.patterns.find(x => x.id === id);
@@ -279,7 +277,8 @@ function openEditor(id) {
     document.getElementById('ed-gauge-m').value = p.gaugeM  || '';
     document.getElementById('ed-gauge-r').value = p.gaugeR  || '';
     document.getElementById('ed-base-bust').value = p.baseBust || '';
-    document.getElementById('ed-text').value    = p.text    || '';
+    const edText = document.getElementById('ed-text');
+    if (edText) edText.value = p.text || '';
     document.getElementById('ed-abbr').value    = p.abbr    || '';
 
     currentTags     = [...(p.tags     || [])];
@@ -290,7 +289,6 @@ function openEditor(id) {
     currentNotes    = [...(p.notes    || [])];
     window._currentSchnitt = p.schnitt ? JSON.parse(JSON.stringify(p.schnitt)) : [];
     loadAnleitungData(p.anleitungSchritte || {});
-    if (typeof loadHoursData === 'function') loadHoursData(p);
   }
 
   renderChips('tags', currentTags);
@@ -1002,7 +1000,7 @@ function openLesemodus() {
   document.getElementById('lese-tot').textContent = leseRows.length;
   historyStack.push(currentScreen);
   showScreen('lesemodus');
-  setTimeout(() => { renderLesemodus(); renderLeseCounters(); renderLeseMarkers(); startLeseTimer(); }, 30);
+  setTimeout(() => { renderLesemodus(); renderLeseCounters(); renderLeseMarkers(); }, 30);
 }
 
 function renderLesemodus() {
@@ -1557,7 +1555,7 @@ function openLesemodusStrukturiert() {
   document.getElementById('lese-tot').textContent = leseRows.length;
   historyStack.push(currentScreen);
   showScreen('lesemodus');
-  setTimeout(() => { renderLesemodus(); renderLeseCounters(); renderLeseMarkers(); startLeseTimer(); }, 30);
+  setTimeout(() => { renderLesemodus(); renderLeseCounters(); renderLeseMarkers(); }, 30);
 }
 
 // Syntax chips — ersetzt Inhalt des fokussierten Schritts, oder erstellt neuen
@@ -1663,168 +1661,4 @@ function renderLeseFulltext() {
   });
   html += '</div>';
   body.innerHTML = html;
-}
-
-// ═══════════════════════════════════════════════════════════════
-// PROJEKTSTUNDEN
-// ═══════════════════════════════════════════════════════════════
-
-let _timerInterval  = null;
-let _timerStart     = null;
-let _timerSeconds   = 0;   // akkumulierte Sekunden dieser Session
-
-// Stunden-Daten des aktuell offenen Patterns
-let currentHoursTotal = 0; // in Stunden (Dezimal)
-let currentHoursLog   = []; // [{date, hours, note}]
-
-// ─── Timer starten ───────────────────────────────────────────
-function startLeseTimer() {
-  if (_timerInterval) return;
-  _timerStart = Date.now();
-  const el = document.getElementById('lese-timer');
-  if (el) el.classList.add('running');
-  _timerInterval = setInterval(() => {
-    const elapsed = Math.floor((Date.now() - _timerStart) / 1000) + _timerSeconds;
-    if (el) el.textContent = '⏱ ' + formatTimerSecs(elapsed);
-  }, 1000);
-}
-
-// ─── Timer pausieren (beim Verlassen des Lesemodus) ───────────
-function pauseLeseTimer() {
-  if (!_timerInterval) return;
-  clearInterval(_timerInterval);
-  _timerInterval = null;
-  _timerSeconds += Math.floor((Date.now() - _timerStart) / 1000);
-  const el = document.getElementById('lese-timer');
-  if (el) el.classList.remove('running');
-}
-
-// ─── Timer stoppen + Stunden speichern ───────────────────────
-async function stopLeseTimer() {
-  pauseLeseTimer();
-  if (_timerSeconds < 60) { _timerSeconds = 0; return; } // unter 1 Min ignorieren
-
-  const hours = Math.round(_timerSeconds / 36) / 100; // auf 0.01h runden
-  _timerSeconds = 0;
-
-  const el = document.getElementById('lese-timer');
-  if (el) el.textContent = '⏱ 0:00';
-
-  if (!currentPatternId) return;
-
-  const entry = {
-    date: new Date().toISOString().slice(0,10),
-    hours,
-    note: 'Lesemodus-Session',
-  };
-  currentHoursLog.push(entry);
-  currentHoursTotal = Math.round((currentHoursTotal + hours) * 100) / 100;
-
-  // In Supabase speichern
-  try {
-    await supaFetch(
-      `patterns?id=eq.${currentPatternId}&user_id=eq.user_julia`,
-      'PATCH',
-      { hours_total: currentHoursTotal, hours_log: currentHoursLog }
-    );
-  } catch(e) { console.error('Hours save error:', e); }
-
-  renderHoursDisplay();
-}
-
-// ─── Manuell Stunden nachtragen ──────────────────────────────
-async function addHoursEntry() {
-  const h     = +document.getElementById('ed-hours-add')?.value;
-  const date  = document.getElementById('ed-hours-date')?.value
-    || new Date().toISOString().slice(0,10);
-  const note  = document.getElementById('ed-hours-note')?.value.trim() || '';
-
-  if (!h || h <= 0) { showSnackbar('Bitte Stunden eingeben'); return; }
-  if (!currentPatternId) { showSnackbar('Erst speichern'); return; }
-
-  const entry = { date, hours: h, note };
-  currentHoursLog.push(entry);
-  currentHoursTotal = Math.round((currentHoursTotal + h) * 100) / 100;
-
-  document.getElementById('ed-hours-add').value  = '';
-  document.getElementById('ed-hours-date').value  = '';
-  document.getElementById('ed-hours-note').value  = '';
-
-  try {
-    await supaFetch(
-      `patterns?id=eq.${currentPatternId}&user_id=eq.user_julia`,
-      'PATCH',
-      { hours_total: currentHoursTotal, hours_log: currentHoursLog }
-    );
-    // Auch im appState updaten
-    const p = appState.patterns.find(x => x.id === currentPatternId);
-    if (p) { p.hoursTotal = currentHoursTotal; p.hoursLog = currentHoursLog; }
-  } catch(e) { console.error('Hours save error:', e); }
-
-  renderHoursDisplay();
-  showSnackbar(`${h}h eingetragen ✓`);
-}
-
-// ─── Stunden-Anzeige rendern ─────────────────────────────────
-function renderHoursDisplay() {
-  const totalEl = document.getElementById('ed-hours-total');
-  if (totalEl) totalEl.textContent = formatHoursDecimal(currentHoursTotal);
-
-  const logEl = document.getElementById('ed-hours-log');
-  if (!logEl) return;
-
-  if (currentHoursLog.length === 0) { logEl.innerHTML = ''; return; }
-
-  // Neueste zuerst
-  const sorted = [...currentHoursLog].reverse();
-  logEl.innerHTML = sorted.map((e, i) => `
-    <div class="hours-log-entry">
-      <span class="hours-val">${formatHoursDecimal(e.hours)}</span>
-      <span class="hours-date">${e.date}</span>
-      <span class="hours-note">${e.note || ''}</span>
-      <button onclick="deleteHoursEntry(${currentHoursLog.length - 1 - i})"
-        style="background:none;border:none;cursor:pointer;color:var(--textFaint);padding:0;font-size:0.8rem;">✕</button>
-    </div>`).join('');
-}
-
-async function deleteHoursEntry(idx) {
-  const entry = currentHoursLog[idx];
-  if (!entry) return;
-  currentHoursTotal = Math.max(0, Math.round((currentHoursTotal - entry.hours) * 100) / 100);
-  currentHoursLog.splice(idx, 1);
-  try {
-    await supaFetch(
-      `patterns?id=eq.${currentPatternId}&user_id=eq.user_julia`,
-      'PATCH',
-      { hours_total: currentHoursTotal, hours_log: currentHoursLog }
-    );
-  } catch(e) {}
-  renderHoursDisplay();
-}
-
-// ─── Stunden laden wenn Editor öffnet ────────────────────────
-function loadHoursData(p) {
-  currentHoursTotal = p.hoursTotal || 0;
-  currentHoursLog   = [...(p.hoursLog || [])];
-  renderHoursDisplay();
-}
-
-function resetHoursData() {
-  currentHoursTotal = 0;
-  currentHoursLog   = [];
-  renderHoursDisplay();
-}
-
-// ─── Formatierung ─────────────────────────────────────────────
-function formatTimerSecs(secs) {
-  const m = Math.floor(secs / 60);
-  const s = secs % 60;
-  return `${m}:${String(s).padStart(2,'0')}`;
-}
-
-function formatHoursDecimal(h) {
-  if (!h || h === 0) return '0:00';
-  const hours = Math.floor(h);
-  const mins  = Math.round((h - hours) * 60);
-  return `${hours}:${String(mins).padStart(2,'0')}`;
 }

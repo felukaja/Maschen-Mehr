@@ -295,6 +295,7 @@ function openEditor(id) {
   renderChips('maschen', currentMaschen, true);
   renderImagePreviews();
   renderSchnittteilList();
+  updateSchnittSelect();
   renderCounters();
   renderMarkers();
   renderProjectNotes();

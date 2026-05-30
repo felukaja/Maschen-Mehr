@@ -24,10 +24,13 @@ async function supaFetch(path, method = 'GET', body = null, extra = '') {
     },
   };
   if (body) opts.body = JSON.stringify(body);
-  const res = await fetch(`${SUPA_URL}/rest/v1/${path}${extra}`, opts);
+  const url = `${SUPA_URL}/rest/v1/${path}${extra}`;
+  console.log(`[Supabase] ${method} ${url}`);
+  const res = await fetch(url, opts);
   if (!res.ok) {
     const err = await res.text();
-    throw new Error(`Supabase ${method} ${path}: ${err}`);
+    console.error(`[Supabase Error] ${method} ${path}: ${err}`);
+    throw new Error(err);
   }
   const text = await res.text();
   return text ? JSON.parse(text) : null;

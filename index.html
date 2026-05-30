@@ -8,6 +8,11 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Maschen &amp; Maße">
 <meta name="theme-color" content="#241a10">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Maschen &amp; Maße">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-512.png">
 <title>Maschen &amp; Maße</title>
 <link rel="stylesheet" href="style.css">
 </head>
@@ -460,25 +465,6 @@
         <label class="lbl">Abkürzungen / Besondere Stiche</label>
         <textarea id="ed-abbr" placeholder="z.B. fM = feste Masche, hStb = halbes Stäbchen…" style="min-height:80px;resize:vertical;"></textarea>
       </div>
-
-      <!-- Reihenzähler -->
-      <div class="card">
-        <label class="lbl">Reihenzähler</label>
-        <div id="counters-list" class="flex-col gap-md"></div>
-        <button class="btn btn-outline-terra btn-full mt-md" onclick="addCounter()">+ Zähler hinzufügen</button>
-      </div>
-
-      <!-- Maschenmarkierungen -->
-      <div class="card">
-        <div class="flex justify-sb align-c mb-md">
-          <label class="lbl" style="margin:0;">Maschenmarkierungen</label>
-          <button class="btn btn-circle-sm btn-terra" onclick="addMarker()">
-            <svg width="14" height="14" fill="none" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="5" y1="12" x2="19" y2="12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
-          </button>
-        </div>
-        <div id="markers-list" class="flex-col gap-xs"></div>
-        <p class="txt-light" id="markers-empty" style="text-align:center;padding:1rem 0;">Noch keine Markierungen.</p>
-      </div>
     </div>
 
     <!-- TAB: NOTIZEN -->
@@ -493,6 +479,23 @@
         <div class="flex-col gap-sm" id="project-notes-list">
           <p class="txt-light" style="text-align:center;padding:1rem 0;">Noch keine Notizen. Tippe auf + um eine hinzuzufügen.</p>
         </div>
+      </div>
+      <!-- Reihenzähler -->
+      <div class="card">
+        <label class="lbl">Reihenzähler</label>
+        <div id="counters-list" class="flex-col gap-md"></div>
+        <button class="btn btn-outline-terra btn-full mt-md" onclick="addCounter()">+ Zähler hinzufügen</button>
+      </div>
+      <!-- Maschenmarkierungen -->
+      <div class="card">
+        <div class="flex justify-sb align-c mb-md">
+          <label class="lbl" style="margin:0;">Maschenmarkierungen</label>
+          <button class="btn btn-circle-sm btn-terra" onclick="addMarker()">
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="5" y1="12" x2="19" y2="12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+        <div id="markers-list" class="flex-col gap-xs"></div>
+        <p class="txt-light" id="markers-empty" style="text-align:center;padding:1rem 0;">Noch keine Markierungen.</p>
       </div>
     </div>
 
@@ -1022,5 +1025,14 @@
 <script src="anleitungen.js"></script>
 <script src="rechner.js"></script>
 <script src="notizen.js"></script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/Maschen-Mehr/service-worker.js')
+        .then(r => console.log('SW registered:', r.scope))
+        .catch(e => console.log('SW error:', e));
+    });
+  }
+</script>
 </body>
 </html>

@@ -6,9 +6,9 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="EigenMaß">
+<meta name="apple-mobile-web-app-title" content="Maschen &amp; Maße">
 <meta name="theme-color" content="#241a10">
-<title>EigenMaß</title>
+<title>Maschen &amp; Maße</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -27,7 +27,7 @@
       <path d="M22 13 L22 18 M22 26 L22 31 M13 22 L18 22 M26 22 L31 22" stroke="rgba(255,255,255,0.3)" stroke-width="1.2" stroke-linecap="round"/>
     </svg>
   </div>
-  <h1 class="login-title">EigenMaß</h1>
+  <h1 class="login-title">Maschen &amp; Maße</h1>
   <p class="login-sub">Dein persönliches Häkel-Atelier</p>
   <div class="login-card">
     <label class="lbl" style="color:rgba(255,255,255,0.45);">Passwort</label>
@@ -659,6 +659,21 @@
         <div class="cc-title">Garnstärken</div>
         <div class="cc-desc">CYC · Ply · DE · m/100g</div>
       </div>
+
+      <!-- Raglan-Rechner -->
+      <div class="calc-card" onclick="navTo('calc-raglan')">
+        <div class="cc-icon">
+          <svg width="34" height="34" fill="none" viewBox="0 0 34 34">
+            <path d="M4 28 L17 6 L30 28" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="10" cy="19" r="1.5" fill="currentColor" opacity="0.7"/>
+            <circle cx="17" cy="11" r="1.5" fill="currentColor" opacity="0.7"/>
+            <circle cx="24" cy="19" r="1.5" fill="currentColor" opacity="0.7"/>
+            <path d="M4 28 L30 28" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="cc-title">Raglan-Rechner</div>
+        <div class="cc-desc">Passen-Höhe empirisch berechnen</div>
+      </div>
     </div>
   </div></div>
 </div>
@@ -670,6 +685,7 @@
 <div id="screen-calc-garn" class="screen"></div>
 <div id="screen-calc-nadel" class="screen"></div>
 <div id="screen-calc-staerke" class="screen"></div>
+<div id="screen-calc-raglan" class="screen"></div>
 
 <!-- ══════════════════════════════════════════════════
      NOTIZEN
@@ -805,7 +821,7 @@
     <svg class="footer-wave" viewBox="0 0 430 40" preserveAspectRatio="none" height="40" style="margin-top:auto;"><path d="M0 0 Q95 32 215 16 Q325 2 430 20 L430 40 L0 40 Z" fill="#241a10"/></svg>
     <div class="footer-dark">
       <p><a>Impressum</a> · <a>Datenschutz</a></p>
-      <p style="margin-top:0.4rem;">EigenMaß · v5.0</p>
+      <p style="margin-top:0.4rem;">Maschen &amp; Maße · v5.0</p>
     </div>
   </div>
 </div>

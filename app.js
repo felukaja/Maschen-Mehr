@@ -739,7 +739,7 @@ function exportData() {
   const blob = new Blob([JSON.stringify(appState, null, 2)], {type:'application/json'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
-  a.href = url; a.download = 'eigenmaß-backup.json'; a.click();
+  a.href = url; a.download = 'maschen-masze-backup.json'; a.click();
   URL.revokeObjectURL(url);
   showSnackbar('Backup gespeichert ✓');
 }
@@ -871,6 +871,7 @@ function renderRechnerScreen(screen) {
     'calc-garn':    () => typeof renderCalcGarn    === 'function' && renderCalcGarn(),
     'calc-nadel':   () => typeof renderNadelTable  === 'function' && renderNadelTable(),
     'calc-staerke': () => typeof renderStaerkeTable=== 'function' && renderStaerkeTable(),
+    'calc-raglan':  () => typeof renderCalcRaglan  === 'function' && renderCalcRaglan(),
   };
   const el = document.getElementById('screen-' + screen);
   if (el && !el.dataset.rendered) {
@@ -894,5 +895,5 @@ async function deleteProfil() {
 // ─── INIT ─────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   checkAutoLogin();
-  ['calc-mp','calc-groesse','calc-mass','calc-garn','calc-nadel','calc-staerke'].forEach(renderRechnerScreen);
+  ['calc-mp','calc-groesse','calc-mass','calc-garn','calc-nadel','calc-staerke','calc-raglan'].forEach(renderRechnerScreen);
 });
